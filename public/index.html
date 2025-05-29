@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realtime Chat</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+    #messages { height: 300px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
+    input, button { padding: 8px; margin-right: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Realtime Chat</h1>
+  <div id="messages"></div>
+  <input type="text" id="userInput" placeholder="Your Name">
+  <input type="text" id="messageInput" placeholder="Type a message">
+  <button onclick="sendMessage()">Send</button>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
