@@ -50,3 +50,38 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+// Add this at the top with other requires
+const Message = require('./models/Message');
+
+// Inside the socket.io connection handler
+io.on('connection', (socket) => {
+  console.log('New user connected');
+  
+  socket.on('sendMessage', async (data) => {
+    try {
+      console.log('Received message:', data);
+      
+      // 1. Save to MongoDB
+      const newMessage = new Message({
+        text: data.text,
+        user: data.user
+      });
+      
+      const savedMessage = await newMessage.save();
+      console.log('Message saved to DB:', savedMessage);
+      
+      // 2. Broadcast to all clients
+      io.emit('newMessage', {
+        _id: savedMessage._id,
+        text: savedMessage.text,
+        user: savedMessage.user,
+        createdAt: savedMessage.createdAt
+      });
+      
+    } catch (error) {
+      console.error('Error handling message:', error);
+    }
+  });
+
+  // ... rest of your code
+});
